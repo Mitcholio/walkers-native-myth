@@ -58,14 +58,17 @@ public class PlayerController : MonoBehaviour {
         Application.runInBackground = true;
         rb = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
+
+        //EyePoint.transform.localPosition = new Vector3(EyePoint.transform.localPosition.x, playerHeight - 0.05f, EyePoint.transform.localPosition.z);
+        //UB_Col.transform.localPosition = new Vector3(UB_Col.transform.localPosition.x, playerHeight - 0.3f, UB_Col.transform.localPosition.z);
+
         eyeHeight = EyePoint.transform.localPosition.y;
         IM = GameObject.FindGameObjectWithTag("GameLogic").GetComponent<InputManager>();
 
         rb.mass = 1; rb.drag = 1; rb.angularDrag = 1; rb.useGravity = false;
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-
-        moveCD = Time.time;
     }
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -197,7 +200,7 @@ public class PlayerController : MonoBehaviour {
 
     void Jump()
     {
-        if (!Grounded)
+        if (!Grounded || CheckRoof())
             return;
 
         if (IM.jump)
@@ -256,7 +259,7 @@ public class PlayerController : MonoBehaviour {
 
             if (Physics.Raycast(_ray, out _hit, 0.1f))
             {
-                if (_hit.collider.gameObject.layer != 8 && _hit.collider.gameObject.layer != 9)
+                if (!_hit.collider.GetComponentInParent<PlayerController>())
                 {
                     Grounded = true;
                     airMulti = 1;
@@ -341,7 +344,7 @@ public class PlayerController : MonoBehaviour {
 
         foreach (RaycastHit _hit in _hits)
         {
-            if (_hit.collider.gameObject.layer != 8 && _hit.collider.gameObject.layer != 9)
+            if (!_hit.collider.GetComponentInParent<PlayerController>())
             {
                 _r = true;
             }

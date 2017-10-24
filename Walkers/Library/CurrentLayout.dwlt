@@ -155,9 +155,9 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1319
+    x: 1317
     y: 0
-    width: 660
+    width: 662
     height: 454
   m_MinSize: {x: 204, y: 221}
   m_MaxSize: {x: 4004, y: 4021}
@@ -189,7 +189,7 @@ MonoBehaviour:
   m_MinSize: {x: 306, y: 221}
   m_MaxSize: {x: 8006, y: 4021}
   vertical: 0
-  controlID: 75
+  controlID: 110
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -344,7 +344,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1319
+    width: 1317
     height: 454
   m_MinSize: {x: 102, y: 121}
   m_MaxSize: {x: 4002, y: 4021}
@@ -544,15 +544,15 @@ MonoBehaviour:
   m_DepthBufferBits: 0
   m_Pos:
     serializedVersion: 2
-    x: 1321
+    x: 1319
     y: 945
-    width: 656
+    width: 658
     height: 433
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: a6fbffff00000000e4270000ee27000008280000
+    m_ExpandedIDs: 0ea6edff58f3edffbab7eeffde06efff1230efff006befffbacaf7ffbecaf7ff943ff8ffd248f8ff3c69f8ff969efaff3834fcffa879feffe29bffffa6fbffff000000000628000050280000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -602,14 +602,14 @@ MonoBehaviour:
     width: 1977
     height: 829
   m_SceneLighting: 1
-  lastFramingTime: 1904.7715012981387
+  lastFramingTime: 15772.27733282985
   m_2DMode: 0
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -1.5729465, y: 1.6008124, z: 0.53038216}
+    m_Target: {x: 0.049035966, y: -0.08761501, z: 4.463879}
     speed: 2
-    m_Value: {x: -1.5729465, y: 1.6008124, z: 0.53038216}
+    m_Value: {x: 0.049035966, y: -0.08761501, z: 4.463879}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -632,13 +632,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: -0.13093674, y: 0.40948948, z: -0.059475776, w: -0.9009348}
+    m_Target: {x: 0.16099876, y: -0.20504768, z: 0.034090552, w: 0.9648869}
     speed: 2
-    m_Value: {x: -0.13093367, y: 0.40947986, z: -0.05947438, w: -0.90091366}
+    m_Value: {x: 0.16098797, y: -0.20503394, z: 0.03408827, w: 0.9648223}
   m_Size:
-    m_Target: 9.501367
+    m_Target: 12.017942
     speed: 2
-    m_Value: 9.501367
+    m_Value: 12.017942
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -688,19 +688,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Materials/PhysMats
+    - Assets/Scripts
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Materials/PhysMats
+  - Assets/Scripts
   m_LastFoldersGridSize: 16
   m_LastProjectPath: F:\Projects\Walkers The Native Myth\git\Walkers
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 80270000
-    m_LastClickedID: 10112
-    m_ExpandedIDs: 0000000028270000362700003c27000064270000962700009028000092280000942800009628000000ca9a3bffffff7f
+    m_SelectedIDs: 4c270000
+    m_LastClickedID: 10060
+    m_ExpandedIDs: 000000002a270000362700003c270000642700009627000090280000922800009428000096280000103f000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -728,7 +728,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000028270000362700003c270000642700009627000090280000922800009428000096280000
+    m_ExpandedIDs: 000000002a270000362700003c270000642700009627000090280000922800009428000096280000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -756,21 +756,21 @@ MonoBehaviour:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: 64220000582e00003c3000008e61feff2af4fbffaaedfbffb0e8fbff000000006034f6ff
+    m_ExpandedInstanceIDs: 64220000582e00003c3000008e61feff2af4fbffaaedfbffb0e8fbff6034f6ff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: 3DText
+      m_OriginalName: 3DText
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 45528
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 5}
     m_CreateAssetUtility:
@@ -807,7 +807,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 945
-    width: 1317
+    width: 1315
     height: 433
 --- !u!114 &24
 MonoBehaviour:

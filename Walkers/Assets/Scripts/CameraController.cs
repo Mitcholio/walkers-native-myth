@@ -31,13 +31,11 @@ public class CameraController : MonoBehaviour {
     void Update()
     {
         Inputs();
+        ApplyInputs();
     }
 
 	void FixedUpdate ()
     {
-        FollowPlayer();
-
-        Rotate();
         RotatePlayer();
 	}
 
@@ -47,25 +45,19 @@ public class CameraController : MonoBehaviour {
         v = -IM.viewV;
     }
 
-    void FollowPlayer()
-    {
-        transform.position = Player.EyePoint.position;
-    }
-
     void RotatePlayer()
     {
         Player.transform.localEulerAngles = new Vector3(0, xRot, 0);
+        Player.EyePoint.localEulerAngles = new Vector3(yRot, 0, 0);
     }
 
-    void Rotate()
+    void ApplyInputs()
     {
         xRot += h * SensX * Time.smoothDeltaTime;
         xRot = xRot % 360;
 
         yRot += v * SensY * Time.smoothDeltaTime;
         yRot = Mathf.Clamp(yRot, -80, 80);
-
-        transform.localEulerAngles = new Vector3(yRot, xRot, 0);
     }
 
     void SetFov()

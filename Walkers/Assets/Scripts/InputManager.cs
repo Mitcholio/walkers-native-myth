@@ -13,6 +13,11 @@ public class InputManager : MonoBehaviour {
     public bool jump = false;
     public bool sprint = false;
     public bool crouch = false;
+    public bool flashlight;
+    public bool pickup;
+    public bool inventory;
+    public bool saveItem;
+    public bool help;
 
 	// Use this for initialization
 	void Start ()
@@ -30,6 +35,10 @@ public class InputManager : MonoBehaviour {
         jump = Input.GetKeyDown(KeyCode.Space);
         sprint = Input.GetKey(KeyCode.LeftShift);
         crouch = Input.GetKeyDown(KeyCode.LeftControl);
+        flashlight = Input.GetKeyDown(KeyCode.F);
+        pickup = Input.GetKeyDown(KeyCode.E);
+        saveItem = Input.GetKeyDown(KeyCode.R);
+        help = Input.GetKeyDown(KeyCode.F1);
     }
 
     public float movementSqrMag()
