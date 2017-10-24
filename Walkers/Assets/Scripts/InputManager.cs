@@ -10,17 +10,18 @@ public class InputManager : MonoBehaviour {
     public float viewH;
     public float viewV;
     float viewMg;
-    public bool jump = false;
-    public bool sprint = false;
-    public bool crouch = false;
-    public bool flashlight;
-    public bool pickup;
-    public bool inventory;
-    public bool saveItem;
-    public bool help;
 
-	// Use this for initialization
-	void Start ()
+    public KeyCode jumpKey = KeyCode.Space;
+    public KeyCode sprintKey = KeyCode.LeftShift;
+    public KeyCode crouchKey = KeyCode.LeftControl;
+    public KeyCode flashlightKey = KeyCode.F;
+    public KeyCode pickupKey = KeyCode.E;
+    public KeyCode inventoryKey = KeyCode.Tab;
+    public KeyCode keepItemKey = KeyCode.R;
+    public KeyCode helpKey = KeyCode.F1;
+
+    // Use this for initialization
+    void Start ()
     {
 		
 	}
@@ -32,13 +33,6 @@ public class InputManager : MonoBehaviour {
         moveV = Input.GetAxis("Vertical");
         viewH = Input.GetAxis("Mouse X");
         viewV = Input.GetAxis("Mouse Y");
-        jump = Input.GetKeyDown(KeyCode.Space);
-        sprint = Input.GetKey(KeyCode.LeftShift);
-        crouch = Input.GetKeyDown(KeyCode.LeftControl);
-        flashlight = Input.GetKeyDown(KeyCode.F);
-        pickup = Input.GetKeyDown(KeyCode.E);
-        saveItem = Input.GetKeyDown(KeyCode.R);
-        help = Input.GetKeyDown(KeyCode.F1);
     }
 
     public float movementSqrMag()
@@ -49,5 +43,45 @@ public class InputManager : MonoBehaviour {
     public float viewSqrMag()
     {
         return viewMg = new Vector2(viewH, viewV).sqrMagnitude;
+    }
+
+    public bool Jump()
+    {
+        return Input.GetKeyDown(jumpKey);
+    }
+
+    public bool Sprint()
+    {
+        return Input.GetKey(sprintKey);
+    }
+
+    public bool Crouch()
+    {
+        return Input.GetKeyDown(crouchKey);
+    }
+
+    public bool Flashlight()
+    {
+        return Input.GetKeyDown(flashlightKey);
+    }
+
+    public bool Pickup()
+    {
+        return Input.GetKeyDown(pickupKey);
+    }
+
+    public bool Inventory()
+    {
+        return Input.GetKeyDown(inventoryKey);
+    }
+
+    public bool KeepItem()
+    {
+        return Input.GetKeyDown(keepItemKey);
+    }
+
+    public bool Help()
+    {
+        return Input.GetKeyDown(helpKey);
     }
 }

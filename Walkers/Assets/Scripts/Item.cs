@@ -13,21 +13,18 @@ public class Item : MonoBehaviour {
 	void Start ()
     {
         StartVars();
-        SpawnModel();
         SetName();
+        SpawnModel();
 	}
 
     void StartVars()
     {
-        rb = GetComponent<Rigidbody>();
+        rb = gameObject.AddComponent<Rigidbody>();
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        rb.mass = 0.1f;
+        rb.drag = 3;
+        rb.angularDrag = 3;
     }
-	
-	// Update is called once per frame
-	void FixedUpdate ()
-    {
-		
-	}
 
     void SetName()
     {
@@ -41,13 +38,22 @@ public class Item : MonoBehaviour {
     //except when the Item is dropped by player.
     void SpawnModel()
     {
-        if (!myItem.model || model)
+        if (!myItem.model)
             return;
 
-        model = Instantiate(myItem.model, transform);
-        model.transform.position = transform.position;
+        if (!model)
+        {
+            model = Instantiate(myItem.model, transform);
+            model.transform.position = transform.position;
+        }
+
         MeshCollider MC = model.GetComponentInChildren<Renderer>().gameObject.AddComponent<MeshCollider>();
-        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
         MC.convex = true;
+    }
+
+    public IEnumerator AddForce(Vector3 _dir)
+    {
+        yield return new WaitForFixedUpdate();
+        rb.AddForce(_dir, ForceMode.Impulse);
     }
 }

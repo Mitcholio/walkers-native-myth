@@ -31,8 +31,8 @@ public class PlayerController : MonoBehaviour {
     bool crouched = false;
     float crouchMulti = 1f;
     float airMulti = 1;
-    float eyeHeight = 0;
-    float curEyeHeight = 0;
+    Vector3 eyePos = Vector3.zero;
+    Vector3 curEyePos = Vector3.zero;
     bool doCrouchLerp = false;
 
     float h = 0;
@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour {
         //EyePoint.transform.localPosition = new Vector3(EyePoint.transform.localPosition.x, playerHeight - 0.05f, EyePoint.transform.localPosition.z);
         //UB_Col.transform.localPosition = new Vector3(UB_Col.transform.localPosition.x, playerHeight - 0.3f, UB_Col.transform.localPosition.z);
 
-        eyeHeight = EyePoint.transform.localPosition.y;
+        eyePos = EyePoint.transform.localPosition;
         IM = GameObject.FindGameObjectWithTag("GameLogic").GetComponent<InputManager>();
 
         rb.mass = 1; rb.drag = 1; rb.angularDrag = 1; rb.useGravity = false;
@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour {
         moveDir.Normalize();
 
         float _sprintMulti = 1;
-        if (IM.sprint)
+        if (IM.Sprint())
             _sprintMulti = SprintMultiplier;
 
         moveDir = moveDir * moveSpeed * crouchMulti * airMulti * _sprintMulti * Time.deltaTime * 80;
@@ -140,7 +140,7 @@ public class PlayerController : MonoBehaviour {
         }
 
         Vector3 _vel = rb.velocity;
-        Vector3 _vel3 = Vector3.Lerp(_vel, moveDir, 10f * Time.deltaTime);
+        Vector3 _vel3 = Vector3.Lerp(_vel, moveDir, 6f * Time.deltaTime);
         rb.velocity = _vel3;
     }
 
@@ -203,7 +203,7 @@ public class PlayerController : MonoBehaviour {
         if (!Grounded || CheckRoof())
             return;
 
-        if (IM.jump)
+        if (IM.Jump())
         {
             float _tempForce = jumpForce;
             if (getSlopeAngle() > 40)
@@ -216,20 +216,20 @@ public class PlayerController : MonoBehaviour {
 
     void Crouch()
     {
-        if (IM.crouch)
+        if (IM.Crouch())
         {
             if (crouched && !CheckRoof())
             {
                 crouched = false;
                 crouchMulti = 1;
-                curEyeHeight = eyeHeight;
+                curEyePos = eyePos;
                 doCrouchLerp = true;
             }
             else
             {
                 crouched = true;
                 crouchMulti = CrouchMultiplier;
-                curEyeHeight = eyeHeight - 0.8f;
+                curEyePos = new Vector3(eyePos.x, eyePos.y - 0.8f, eyePos.z);
                 doCrouchLerp = true;
             }
         }
@@ -237,8 +237,8 @@ public class PlayerController : MonoBehaviour {
 
     void CrouchLerp()
     {
-        float _temp = Mathf.Lerp(EyePoint.localPosition.y, curEyeHeight, 5 * Time.deltaTime);
-        EyePoint.localPosition = new Vector3(0, _temp, 0.1f);
+        float _temp = Mathf.Lerp(EyePoint.localPosition.y, curEyePos.y, 5 * Time.deltaTime);
+        EyePoint.localPosition = new Vector3(0, _temp, eyePos.z);
         UB_Col.localPosition = new Vector3(0, _temp - 0.3f, 0);
 
         if (_temp < EyePoint.localPosition.y - 0.05f)

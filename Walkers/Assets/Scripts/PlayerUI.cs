@@ -46,13 +46,12 @@ public class PlayerUI : MonoBehaviour {
     void HoverItemPopup()
     {
         Item _item = null;
-        RaycastHit[] _hits = Physics.RaycastAll(cam.transform.position, cam.transform.forward, 2.2f);
-        foreach (RaycastHit _hit in _hits)
+
+        Ray _ray = new Ray(cam.transform.position, cam.transform.forward);
+        RaycastHit _hit;
+        if (Physics.Raycast(_ray, out _hit, 2.2f, 8 | 9))
         {
-            if (_hit.collider.GetComponentInParent<Item>())
-            {
-                _item = _hit.collider.GetComponentInParent<Item>();
-            }
+            _item = _hit.transform.GetComponentInParent<Item>();
         }
 
         if (_item)
@@ -69,12 +68,12 @@ public class PlayerUI : MonoBehaviour {
             return;
         }
 
-        curItemInfoText.text = "R to save: " + PA.EquipedItem.title;
+        curItemInfoText.text = "R to keep: " + PA.EquipedItem.title;
     }
 
     void ControlsInfo()
     {
-        if (!CL.IM.help)
+        if (!CL.IM.Help())
         {
             return;
         }

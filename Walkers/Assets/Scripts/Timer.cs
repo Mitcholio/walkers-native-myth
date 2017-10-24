@@ -33,12 +33,13 @@ public class Timer : MonoBehaviour {
     void FLEmpty()
     {
         runFLTimer = false;
+        //...
     }
 
 
     void End()
     {
         runEndTimer = false;
-        
+        //...
     }
 }

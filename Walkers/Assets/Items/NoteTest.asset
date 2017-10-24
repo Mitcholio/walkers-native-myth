@@ -11,7 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d1ed7fb8675cc341ad609bdc4518756, type: 3}
   m_Name: NoteTest
   m_EditorClassIdentifier: 
+  title: NoteTest
   model: {fileID: 1680881490515210, guid: 8cbb908c615164447ae020397653bb32, type: 2}
+  text: insert spooky text
   clip: {fileID: 0}
   sprite: {fileID: 0}
-  title: NoteTest

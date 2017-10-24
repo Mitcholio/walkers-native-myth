@@ -45,12 +45,12 @@ public class PlayerActions : MonoBehaviour {
 
         DropItem();
         PickUpItem();
-        SaveItem();
+        KeepItem();
 	}
 
     void FlashLight()
     {
-        if (CL.IM.flashlight)
+        if (CL.IM.Flashlight())
         {
             toggleFlashLight(!on);
         }
@@ -96,31 +96,29 @@ public class PlayerActions : MonoBehaviour {
 
     void PickUpItem()
     {
-        if (CL.IM.pickup)
+        if (CL.IM.Pickup())
         {
             Item _item = null;
-            RaycastHit[] _hits = Physics.RaycastAll(cam.transform.position, cam.transform.forward, 2.2f);
 
-            foreach (RaycastHit _hit in _hits)
+            Ray _ray = new Ray(cam.transform.position, cam.transform.forward);
+            RaycastHit _hit;
+            if (Physics.Raycast(_ray, out _hit, 2.2f, 8 | 9))
             {
-                if (_hit.collider.GetComponentInParent<Item>())
-                {
-                    _item = _hit.collider.GetComponentInParent<Item>();
-
-                }
+                _item = _hit.collider.GetComponentInParent<Item>();
             }
 
             if (_item)
             {
-                Inv.PickUp(_item);
+                Inv.AddItem(_item.myItem);
+                Destroy(_item.gameObject);
                 EquipItem(0, _item.myItem);
             }
         }
     }
 
-    void SaveItem()
+    void KeepItem()
     {
-        if (!CL.IM.saveItem || !EquipedItem)
+        if (!CL.IM.KeepItem() || !EquipedItem)
             return;
 
         UnEquipItem();
@@ -128,29 +126,50 @@ public class PlayerActions : MonoBehaviour {
 
     void DropItem()
     {
-        if (!EquipedItem)
+        if (!EquipedItem || !CL.IM.Pickup())
             return;
 
-        if (!CL.IM.pickup)
+        Destroy(EquipedItemGO);
+
+        if (PlaceItem())
             return;
 
-        if (EquipedItemGO)
-        {
-            Destroy(EquipedItemGO);
+        GameObject _temp = new GameObject();
+        Item _item = _temp.AddComponent<Item>();
+        _item.myItem = EquipedItem;
 
-            GameObject _temp = Instantiate(Inv.ItemPrefab);
-            Item _item = _temp.GetComponent<Item>();
-            _item.myItem = EquipedItem;
+        _temp.transform.position = Hand.position;
+        _temp.transform.rotation = Hand.rotation;
 
-            _temp.transform.position = Hand.position;
-            _temp.transform.rotation = Hand.rotation;
+        Rigidbody rb = _temp.GetComponent<Rigidbody>();
+        StartCoroutine(_item.AddForce(cam.transform.forward * 0.25f));
 
-            Rigidbody rb = _temp.GetComponent<Rigidbody>();
-            rb.AddForce(cam.transform.forward * 2, ForceMode.Impulse);
+        Inv.RemItem(EquipedItem);
+        EquipedItem = null;
+    }
 
-            Inv.RemItem(EquipedItem);
-            EquipedItem = null;
-        }
+    bool PlaceItem()
+    {
+        Ray _ray = new Ray(cam.transform.position, cam.transform.forward);
+        RaycastHit _hit;
+        Vector3 _pos;
+
+        if (Physics.Raycast(_ray, out _hit, 2.2f, 8 | 9))
+            _pos = _hit.point + Vector3.up * 0.3f;
+        else
+            return false;
+
+        GameObject _temp = new GameObject();
+        Item _item = _temp.AddComponent<Item>();
+        _item.myItem = EquipedItem;
+
+        _temp.transform.position = _pos;
+        _temp.transform.rotation = Quaternion.identity;
+
+        Inv.RemItem(EquipedItem);
+        EquipedItem = null;
+
+        return true;
     }
 
     public void EquipItem(int _nr, ItemProperties _item)

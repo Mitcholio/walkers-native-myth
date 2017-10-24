@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour {
 
-    public GameObject ItemPrefab;
     public List<ItemProperties> Items = new List<ItemProperties>();
     public int size = 10;
 
@@ -13,17 +12,6 @@ public class Inventory : MonoBehaviour {
     {
 		
 	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
-		
-	}
-
-    public void PickUp(Item _item)
-    {
-        AddItem(_item.myItem);
-        Destroy(_item.gameObject);
-    }
 
     public bool AddItem(ItemProperties _item)
     {

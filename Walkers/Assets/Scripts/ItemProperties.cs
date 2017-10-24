@@ -8,8 +8,9 @@ using UnityEditor;
 [CreateAssetMenu(fileName = "Items/NewItem", menuName = "New Item", order = 1)]
 public class ItemProperties : ScriptableObject
 {
+    public string title;
     public GameObject model;
+    public string text;
     public AudioClip clip;
     public Sprite sprite;
-    public string title;
 }
