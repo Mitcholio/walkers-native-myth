@@ -5,26 +5,35 @@ using UnityEngine;
 public class PlayerActions : MonoBehaviour {
 
     Camera cam;
-    public Inventory Inv;
+    Inventory Inv;
     ComponentList CL;
+
+    //Flashlight vars
     public float maxBattery;
     public float curBattery;
-    public float range;
-    public bool on = false;
-
+    public float FL_range;
+    public bool FL_on = false;
+    float flickerTimer;
     Light flashLight;
 
+    //Animal vars
+    public List<GameObject> nearbyAnimals = new List<GameObject>(); //<GameObject> to be replaced by <Animal> class
+    SphereCollider AnimalFindCol;
+
+    //Pickup item vars
     public Transform Hand;
     public GameObject EquipedItemGO;
     public ItemProperties EquipedItem;
 
-    float flickerTimer;
     System.Random r = new System.Random();
+
+    public LayerMask PlayerMask;
 
     // Use this for initialization
     void Start ()
     {
         StartVars();
+        SetAnimalFindCol();
 	}
 
     void StartVars()
@@ -32,30 +41,46 @@ public class PlayerActions : MonoBehaviour {
         CL = GameObject.FindGameObjectWithTag("GameLogic").GetComponent<ComponentList>();
         flashLight = GetComponentInChildren<Light>();
         flashLight.enabled = false;
-        flashLight.range = range;
+        flashLight.range = FL_range;
         curBattery = maxBattery;
         cam = Camera.main;
         Inv = GetComponent<Inventory>();
+        PlayerMask += 8 | 9;
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    void SetAnimalFindCol()
+    {
+        AnimalFindCol = gameObject.AddComponent<SphereCollider>();
+        AnimalFindCol.radius = FL_range;
+        AnimalFindCol.isTrigger = true;
+    }
+
+    // Update is called once per frame
+    void Update ()
     {
         FlashLight();
 
-        DropItem();
-        PickUpItem();
+        if(EquipedItem)
+            DropItem();
+        else
+            PickUpItem();
+        
         KeepItem();
 	}
+
+    void FixedUpdate()
+    {
+        CheckForAnimals();
+    }
 
     void FlashLight()
     {
         if (CL.IM.Flashlight())
         {
-            toggleFlashLight(!on);
+            toggleFlashLight(!FL_on);
         }
 
-        if (on)
+        if (FL_on)
             curBattery -= Time.deltaTime;
 
         if (curBattery < 0)
@@ -78,7 +103,7 @@ public class PlayerActions : MonoBehaviour {
         }
 
         flashLight.enabled = _state;
-        on = _state;
+        FL_on = _state;
     }
 
     void FlashLightFlicker()
@@ -87,11 +112,9 @@ public class PlayerActions : MonoBehaviour {
         if (Time.time < flickerTimer + _temp)
             return;
 
-        Debug.Log(flickerTimer);
         flickerTimer = Time.time;
 
-        toggleFlashLight(!on);
-
+        toggleFlashLight(!FL_on);
     }
 
     void PickUpItem()
@@ -102,7 +125,7 @@ public class PlayerActions : MonoBehaviour {
 
             Ray _ray = new Ray(cam.transform.position, cam.transform.forward);
             RaycastHit _hit;
-            if (Physics.Raycast(_ray, out _hit, 2.2f, 8 | 9))
+            if (Physics.Raycast(_ray, out _hit, 2.2f, PlayerMask))
             {
                 _item = _hit.collider.GetComponentInParent<Item>();
             }
@@ -154,7 +177,7 @@ public class PlayerActions : MonoBehaviour {
         RaycastHit _hit;
         Vector3 _pos;
 
-        if (Physics.Raycast(_ray, out _hit, 2.2f, 8 | 9))
+        if (Physics.Raycast(_ray, out _hit, 2.2f, PlayerMask))
             _pos = _hit.point + Vector3.up * 0.3f;
         else
             return false;
@@ -174,10 +197,7 @@ public class PlayerActions : MonoBehaviour {
 
     public void EquipItem(int _nr, ItemProperties _item)
     {
-        if (EquipedItemGO)
-        {
-            Destroy(EquipedItemGO);
-        }
+        Destroy(EquipedItemGO);
 
         if(!_item)
         _item = Inv.GetItem(_nr);
@@ -192,10 +212,46 @@ public class PlayerActions : MonoBehaviour {
 
     public void UnEquipItem()
     {
-        if (EquipedItemGO)
+        if (EquipedItem)
         {
             Destroy(EquipedItemGO);
             EquipedItem = null;
+        }
+    }
+
+    void CheckForAnimals()
+    {
+        if (nearbyAnimals.Count < 1 || !FL_on)
+            return;
+
+        foreach (GameObject animal in nearbyAnimals)
+        {
+            Vector3 screenPoint = cam.WorldToViewportPoint(animal.transform.position);
+            if (screenPoint.z > 0 && screenPoint.x > 0.35f && screenPoint.x < 0.65f && screenPoint.y > 0.35f && screenPoint.y < 0.65f)
+            {
+                AnimalDetected(animal);
+            }
+        }
+    }
+
+    void AnimalDetected(GameObject animal)
+    {
+        
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Animal")
+        {
+            nearbyAnimals.Add(other.gameObject);
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Animal")
+        {
+            nearbyAnimals.Remove(other.gameObject);
         }
     }
 }

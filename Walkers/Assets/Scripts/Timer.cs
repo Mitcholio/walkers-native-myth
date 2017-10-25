@@ -4,42 +4,65 @@ using UnityEngine;
 
 public class Timer : MonoBehaviour {
 
+    ComponentList CL;
     //FlashLight
-    public bool runFLTimer;
     public float FLTimer;
 
-    public bool runEndTimer;
-    public float EndTimer;
+    //DeathTimer
+    public bool runDeathTimer;
+    public float DeathTimer;
+
+    //SkinWalker Stages
+    public float StageInterval;
+    public int maxStages;
+    public int curStage = 0;
 
 	void Start ()
     {
-		
+        StartVars();
 	}
+
+    void StartVars()
+    {
+        CL = GameObject.FindGameObjectWithTag("GameLogic").GetComponent<ComponentList>();
+    }
 	
 	void Update ()
     {
-        if (runFLTimer)
-            FLTimer -= Time.deltaTime;
-        if (runEndTimer)
-            EndTimer -= Time.deltaTime;
+        FLTimer = CL.PA.curBattery;
+
+        if (runDeathTimer)
+            DeathTimer -= Time.deltaTime;
 
         if (FLTimer < 0)
             FLEmpty();
 
-        if (EndTimer < 0)
-            End();
+        if (DeathTimer < 0)
+            DeathEmpty();
 	}
 
     void FLEmpty()
     {
-        runFLTimer = false;
         //...
+        if(DeathTimer > 0)
+            DeathTimer = 0;
     }
 
 
-    void End()
+    void DeathEmpty()
     {
-        runEndTimer = false;
         //...
+        if (FLTimer > 0)
+            CL.PA.curBattery = 0;
+
+        int i = 1;
+        while (i <= maxStages)
+        {
+            if (DeathTimer < (i - 1) * -StageInterval && DeathTimer > i * -StageInterval)
+            {
+                curStage = i;
+            }
+            i++;
+        }
     }
 }

@@ -49,6 +49,10 @@ public class Item : MonoBehaviour {
 
         MeshCollider MC = model.GetComponentInChildren<Renderer>().gameObject.AddComponent<MeshCollider>();
         MC.convex = true;
+
+        PhysicMaterial PhysMat = new PhysicMaterial("ItemPhysMat");
+        PhysMat.bounciness = 0;
+        MC.material = PhysMat;
     }
 
     public IEnumerator AddForce(Vector3 _dir)

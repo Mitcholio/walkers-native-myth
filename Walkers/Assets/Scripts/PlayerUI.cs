@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class PlayerUI : MonoBehaviour {
 
     ComponentList CL;
-    public PlayerController PC;
-    public PlayerActions PA;
+    PlayerController PC;
+    PlayerActions PA;
     Inventory Inv;
     public Text HoverInfoText;
     public Text curItemInfoText;
@@ -15,7 +15,6 @@ public class PlayerUI : MonoBehaviour {
     Camera cam;
 
     bool InvOpen = false;
-
 
     // Use this for initialization
     void Start ()
@@ -26,7 +25,9 @@ public class PlayerUI : MonoBehaviour {
     void StartVars()
     {
         CL = GameObject.FindGameObjectWithTag("GameLogic").GetComponent<ComponentList>();
-        Inv = PA.Inv;
+        Inv = CL.Inv;
+        PC = CL.PC;
+        PA = CL.PA;
         cam = Camera.main;
         ControlsInfoText.gameObject.SetActive(false);
     }
@@ -49,7 +50,7 @@ public class PlayerUI : MonoBehaviour {
 
         Ray _ray = new Ray(cam.transform.position, cam.transform.forward);
         RaycastHit _hit;
-        if (Physics.Raycast(_ray, out _hit, 2.2f, 8 | 9))
+        if (Physics.Raycast(_ray, out _hit, 2.2f, PA.PlayerMask))
         {
             _item = _hit.transform.GetComponentInParent<Item>();
         }
@@ -80,5 +81,4 @@ public class PlayerUI : MonoBehaviour {
 
         ControlsInfoText.gameObject.SetActive(!ControlsInfoText.gameObject.activeSelf);
     }
-
 }

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
+    ComponentList CL;
     InputManager IM;
-
     Rigidbody rb;
     
     public float moveSpeed;
@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour {
     float v = 0;
 
     float playerRadius = 0.2f;
-    float gFootHeight = 0.05f;
+    float gFootHeight = 0.1f;
     List<Vector3> gFeet = new List<Vector3>();
 
     float stairCD = 0;
@@ -56,6 +56,7 @@ public class PlayerController : MonoBehaviour {
     void StartVars()
     {
         Application.runInBackground = true;
+        CL = GameObject.FindGameObjectWithTag("GameLogic").GetComponent<ComponentList>();
         rb = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -257,7 +258,7 @@ public class PlayerController : MonoBehaviour {
             Ray _ray = new Ray(_foot2, Vector3.down);
             RaycastHit _hit;
 
-            if (Physics.Raycast(_ray, out _hit, 0.1f))
+            if (Physics.Raycast(_ray, out _hit, gFootHeight * 1.5f))
             {
                 if (!_hit.collider.GetComponentInParent<PlayerController>())
                 {
@@ -340,15 +341,12 @@ public class PlayerController : MonoBehaviour {
 
         Ray _ray = new Ray(transform.position, Vector3.up);
 
-        RaycastHit[] _hits = Physics.RaycastAll(_ray, playerHeight);
-
-        foreach (RaycastHit _hit in _hits)
+        RaycastHit _hit;
+        if (Physics.Raycast(_ray, out _hit, playerHeight, CL.PA.PlayerMask))
         {
-            if (!_hit.collider.GetComponentInParent<PlayerController>())
-            {
-                _r = true;
-            }
+            _r = true;
         }
+
         return _r;
     }
 

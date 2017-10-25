@@ -6,6 +6,8 @@ public class ComponentList : MonoBehaviour {
 
     public InputManager IM;
     public PlayerController PC;
+    public PlayerActions PA;
+    public Inventory Inv;
     public CameraController CamC;
     public Timer timer;
     public PlayerUI PUI;
