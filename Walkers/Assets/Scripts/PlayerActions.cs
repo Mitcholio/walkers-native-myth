@@ -17,7 +17,8 @@ public class PlayerActions : MonoBehaviour {
     Light flashLight;
 
     //Animal vars
-    public List<GameObject> nearbyAnimals = new List<GameObject>(); //<GameObject> to be replaced by <Animal> class
+    public List<Animal> nearbyAnimals = new List<Animal>();
+    public List<Animal> detectedAnimals = new List<Animal>();
     SphereCollider AnimalFindCol;
 
     //Pickup item vars
@@ -27,7 +28,7 @@ public class PlayerActions : MonoBehaviour {
 
     System.Random r = new System.Random();
 
-    public LayerMask PlayerMask;
+    LayerMask PlayerMask;
 
     // Use this for initialization
     void Start ()
@@ -77,6 +78,7 @@ public class PlayerActions : MonoBehaviour {
     {
         if (CL.IM.Flashlight())
         {
+            UnDetectAnimals();
             toggleFlashLight(!FL_on);
         }
 
@@ -221,37 +223,73 @@ public class PlayerActions : MonoBehaviour {
 
     void CheckForAnimals()
     {
-        if (nearbyAnimals.Count < 1 || !FL_on)
+        if (nearbyAnimals.Count < 1)
             return;
 
-        foreach (GameObject animal in nearbyAnimals)
+        foreach (Animal animal in nearbyAnimals)
         {
             Vector3 screenPoint = cam.WorldToViewportPoint(animal.transform.position);
-            if (screenPoint.z > 0 && screenPoint.x > 0.35f && screenPoint.x < 0.65f && screenPoint.y > 0.35f && screenPoint.y < 0.65f)
+            if (screenPoint.z > 0 && screenPoint.x > 0.35f && screenPoint.x < 0.65f && screenPoint.y > 0.3f && screenPoint.y < 0.65f)
             {
-                AnimalDetected(animal);
+                if(FL_on)
+                    AnimalDetected(animal);
+            }
+            else
+            {
+                    AnimalNotDetected(animal);
             }
         }
     }
 
-    void AnimalDetected(GameObject animal)
+    void UnDetectAnimals()
     {
-        
+        foreach (Animal animal in detectedAnimals)
+        {
+            animal.OnNotDetected();
+        }
+        detectedAnimals = new List<Animal>();
+    }
+
+    void AnimalDetected(Animal animal)
+    {
+        if (!detectedAnimals.Contains(animal))
+        {
+            detectedAnimals.Add(animal);
+            animal.OnDetected();
+        }
+    }
+
+    void AnimalNotDetected(Animal animal)
+    {
+        if (detectedAnimals.Contains(animal))
+        {
+            detectedAnimals.Remove(animal);
+            animal.OnNotDetected();
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Animal")
+        Animal animal = other.GetComponentInParent<Animal>();
+        if (animal)
         {
-            nearbyAnimals.Add(other.gameObject);
+            if (!nearbyAnimals.Contains(animal))
+                nearbyAnimals.Add(animal);
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Animal")
+        Animal animal = other.GetComponentInParent<Animal>();
+        if (animal)
         {
-            nearbyAnimals.Remove(other.gameObject);
+            if (nearbyAnimals.Contains(animal))
+                nearbyAnimals.Remove(animal);
         }
+    }
+
+    public LayerMask GetPlayerMask()
+    {
+        return PlayerMask;
     }
 }

@@ -50,7 +50,7 @@ public class PlayerUI : MonoBehaviour {
 
         Ray _ray = new Ray(cam.transform.position, cam.transform.forward);
         RaycastHit _hit;
-        if (Physics.Raycast(_ray, out _hit, 2.2f, PA.PlayerMask))
+        if (Physics.Raycast(_ray, out _hit, 2.2f, PA.GetPlayerMask()))
         {
             _item = _hit.transform.GetComponentInParent<Item>();
         }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Inventory : MonoBehaviour {
 
     public List<ItemProperties> Items = new List<ItemProperties>();
-    public int size = 10;
+    public int size;
 
 	// Use this for initialization
 	void Start ()
@@ -15,24 +15,18 @@ public class Inventory : MonoBehaviour {
 
     public bool AddItem(ItemProperties _item)
     {
-        bool _r = false;
-
         if (Items.Count < size)
         {
             Items.Add(_item);
-            _r = true;
+            return true;
         }
 
-        return _r;
+        return false;
     }
 
     public bool RemItem(ItemProperties _item)
     {
-        bool _r = false;
-
-        _r = Items.Remove(_item);
-
-        return _r;
+        return Items.Remove(_item);
     }
 
     public ItemProperties GetItem(int _nr)

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d6ddf679df82a444b730fbbb7e39d67, type: 3}
+  m_Name: Fluffy
+  m_EditorClassIdentifier: 
+  title: Fluffy
+  model: {fileID: 1300151927711638, guid: 7dd568ecd07787041be0eb952888196b, type: 2}
+  text: 
+  clip: {fileID: 0}
+  sprite: {fileID: 0}
+  moveSpeed: 1
+  newDirInterval: 6
+  size: 0.8

@@ -327,7 +327,6 @@ public class PlayerController : MonoBehaviour {
             {
                 //rb.velocity = new Vector3(rb.velocity.x, stepForce * Time.deltaTime, rb.velocity.z);
                 rb.AddForce(new Vector3(0, stepForce * stepHeight, 0), ForceMode.Impulse);
-
                 stairCD = Time.time; //
             }
         }
@@ -335,19 +334,15 @@ public class PlayerController : MonoBehaviour {
 
     bool CheckRoof()
     {
-        bool _r = false;
         if (!crouched)
-            return _r;
+            return false;
 
         Ray _ray = new Ray(transform.position, Vector3.up);
-
         RaycastHit _hit;
-        if (Physics.Raycast(_ray, out _hit, playerHeight, CL.PA.PlayerMask))
-        {
-            _r = true;
-        }
+        if (Physics.Raycast(_ray, out _hit, playerHeight, CL.PA.GetPlayerMask()))
+            return true;
 
-        return _r;
+        return false;
     }
 
 }
