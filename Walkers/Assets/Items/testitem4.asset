@@ -11,8 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d1ed7fb8675cc341ad609bdc4518756, type: 3}
   m_Name: testitem4
   m_EditorClassIdentifier: 
-  title: TestItem2
+  title: TestItem4
+  description: Test4 description
   model: {fileID: 1684038514548086, guid: 58733fe1dd1856046bb2d35a6b24a9d9, type: 2}
   text: 
-  clip: {fileID: 0}
-  sprite: {fileID: 0}
+  clip: {fileID: 8300000, guid: b181fbf65c0a4c9439e0430f0a47218f, type: 3}
+  sprite: {fileID: 21300000, guid: 862bca50c0e0273438ec93e47a7845a1, type: 3}

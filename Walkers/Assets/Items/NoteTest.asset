@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Name: NoteTest
   m_EditorClassIdentifier: 
   title: NoteTest
+  description: Test description
   model: {fileID: 1680881490515210, guid: 8cbb908c615164447ae020397653bb32, type: 2}
   text: insert spooky text
   clip: {fileID: 0}
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: b028d1a4f5769d5429db57e30904a1fa, type: 3}

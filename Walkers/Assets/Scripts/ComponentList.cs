@@ -13,8 +13,14 @@ public class ComponentList : MonoBehaviour {
     public PlayerUI PUI;
 
 	// Use this for initialization
-	void Start () {
-		
+	void Start ()
+    {
+        StartComponents();
 	}
+
+    void StartComponents()
+    {
+        PUI.gameObject.SetActive(true);
+    }
 
 }

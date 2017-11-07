@@ -9,6 +9,7 @@ using UnityEditor;
 public class ItemProperties : ScriptableObject
 {
     public string title;
+    public string description;
     public GameObject model;
     public string text;
     public AudioClip clip;

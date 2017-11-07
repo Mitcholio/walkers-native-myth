@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour {
@@ -7,8 +8,10 @@ public class Inventory : MonoBehaviour {
     public List<ItemProperties> Items = new List<ItemProperties>();
     public int size;
 
-	// Use this for initialization
-	void Start ()
+    List<ItemProperties> NewItems = new List<ItemProperties>();
+
+    // Use this for initialization
+    void Start ()
     {
 		
 	}
@@ -18,6 +21,9 @@ public class Inventory : MonoBehaviour {
         if (Items.Count < size)
         {
             Items.Add(_item);
+            SortItemsList();
+
+            NewItems.Add(_item);
             return true;
         }
 
@@ -26,7 +32,17 @@ public class Inventory : MonoBehaviour {
 
     public bool RemItem(ItemProperties _item)
     {
-        return Items.Remove(_item);
+        bool _r = Items.Remove(_item);
+        SortItemsList();
+
+        NewItems.Remove(_item);
+        return _r;
+    }
+
+    void SortItemsList()
+    {
+        Items = Items.OrderBy(i => i.title).ToList();
+        //Items = Items.OrderBy(i => i.text).ThenBy(i => i.title).ToList();
     }
 
     public ItemProperties GetItem(int _nr)
@@ -41,5 +57,15 @@ public class Inventory : MonoBehaviour {
     public List<ItemProperties> GetItemList()
     {
         return Items;
+    }
+
+    public List<ItemProperties> GetNewItemList()
+    {
+        return NewItems;
+    }
+
+    public void RemoveNewItem(ItemProperties _item)
+    {
+        NewItems.Remove(_item);
     }
 }

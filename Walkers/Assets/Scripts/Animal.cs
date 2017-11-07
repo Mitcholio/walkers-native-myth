@@ -125,7 +125,7 @@ public class Animal : MonoBehaviour {
             eye.material.color = _color;
         }
     }
-
+    
     bool IsDetected()
     {
         return CL.PA.detectedAnimals.Contains(this);

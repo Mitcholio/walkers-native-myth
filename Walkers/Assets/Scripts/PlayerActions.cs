@@ -59,14 +59,14 @@ public class PlayerActions : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-        FlashLight();
+        ActFlashLight();
 
         if(EquipedItem)
-            DropItem();
+            ActDropItem();
         else
-            PickUpItem();
+            ActPickUpItem();
         
-        KeepItem();
+        ActKeepItem();
 	}
 
     void FixedUpdate()
@@ -74,7 +74,7 @@ public class PlayerActions : MonoBehaviour {
         CheckForAnimals();
     }
 
-    void FlashLight()
+    void ActFlashLight()
     {
         if (CL.IM.Flashlight())
         {
@@ -119,7 +119,7 @@ public class PlayerActions : MonoBehaviour {
         toggleFlashLight(!FL_on);
     }
 
-    void PickUpItem()
+    void ActPickUpItem()
     {
         if (CL.IM.Pickup())
         {
@@ -136,12 +136,11 @@ public class PlayerActions : MonoBehaviour {
             {
                 Inv.AddItem(_item.myItem);
                 Destroy(_item.gameObject);
-                EquipItem(0, _item.myItem);
             }
         }
     }
 
-    void KeepItem()
+    void ActKeepItem()
     {
         if (!CL.IM.KeepItem() || !EquipedItem)
             return;
@@ -149,16 +148,21 @@ public class PlayerActions : MonoBehaviour {
         UnEquipItem();
     }
 
-    void DropItem()
+    void ActDropItem()
     {
         if (!EquipedItem || !CL.IM.Pickup())
             return;
 
         Destroy(EquipedItemGO);
 
-        if (PlaceItem())
+        if (PlaceEquipedItem())
             return;
 
+        DropEquipedItem();
+    }
+
+    void DropEquipedItem()
+    {
         GameObject _temp = new GameObject();
         Item _item = _temp.AddComponent<Item>();
         _item.myItem = EquipedItem;
@@ -173,7 +177,7 @@ public class PlayerActions : MonoBehaviour {
         EquipedItem = null;
     }
 
-    bool PlaceItem()
+    bool PlaceEquipedItem()
     {
         Ray _ray = new Ray(cam.transform.position, cam.transform.forward);
         RaycastHit _hit;
@@ -195,6 +199,21 @@ public class PlayerActions : MonoBehaviour {
         EquipedItem = null;
 
         return true;
+    }
+
+    public void DropItem(ItemProperties _itemProp)
+    {
+        GameObject _temp = new GameObject();
+        Item _item = _temp.AddComponent<Item>();
+        _item.myItem = _itemProp;
+
+        _temp.transform.position = Hand.position;
+        _temp.transform.rotation = Hand.rotation;
+
+        Rigidbody rb = _temp.GetComponent<Rigidbody>();
+        StartCoroutine(_item.AddForce(cam.transform.forward * 0.25f));
+
+        Inv.RemItem(_itemProp);
     }
 
     public void EquipItem(int _nr, ItemProperties _item)

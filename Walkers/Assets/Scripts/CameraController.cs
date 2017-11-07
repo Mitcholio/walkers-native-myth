@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
 
+    ComponentList CL;
     InputManager IM;
     public PlayerController Player;
     public Camera cam;
@@ -24,14 +25,18 @@ public class CameraController : MonoBehaviour {
 
     void StartVars()
     {
+        CL = GameObject.FindGameObjectWithTag("GameLogic").GetComponent<ComponentList>();
         cam = GetComponentInChildren<Camera>();
         IM = GameObject.FindGameObjectWithTag("GameLogic").GetComponent<InputManager>();
     }
 
     void Update()
     {
-        Inputs();
-        ApplyInputs();
+        if (!CL.PUI.InvState())
+        {
+            Inputs();
+            ApplyInputs();
+        }
     }
 
 	void FixedUpdate ()
